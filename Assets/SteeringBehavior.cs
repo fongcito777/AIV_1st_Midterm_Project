@@ -4,32 +4,33 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class SteeringBehaviour : MonoBehaviour
+
+public class SteeringBehaviour
 {
-
-
     NavMeshAgent agent;
-    public GameObject target;
+    GameObject target;
+    Transform transform;
 
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init(NavMeshAgent _agent, GameObject _target, Transform _transform)
     {
-        agent = this.GetComponent<NavMeshAgent>();
+        agent = _agent;
+        target = _target;
+        transform = _transform;
     }
 
 
-    void Seek(Vector3 location)
+    public void Seek(Vector3 location)
     {
         agent.SetDestination(location);
     }
 
-    void Flee(Vector3 location)
+    public void Flee(Vector3 location)
     {
         agent.SetDestination(this.transform.position - (location - this.transform.position));
     }
 
-    void Pursue()
+    public void Pursue()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
         float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<Drive>().currentSpeed);
@@ -42,7 +43,7 @@ public class SteeringBehaviour : MonoBehaviour
         }
     }
 
-    void Evade()
+    public void Evade()
     {
 
         Vector3 targetDir = target.transform.position - this.transform.position;
@@ -52,20 +53,13 @@ public class SteeringBehaviour : MonoBehaviour
         Flee(pursueLocation);
     }
     
-    void Wander()
+    public void Wander()
     {
 
     }
     
-    void Hide()
+    public void Hide()
     {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Flee(target.transform.position);
-        Evade();
     }
 }
