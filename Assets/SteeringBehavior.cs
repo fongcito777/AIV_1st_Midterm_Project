@@ -4,13 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-
 public class SteeringBehaviour
 {
     NavMeshAgent agent;
     GameObject target;
     Transform transform;
-
 
     public void Init(NavMeshAgent _agent, GameObject _target, Transform _transform)
     {
@@ -18,7 +16,6 @@ public class SteeringBehaviour
         target = _target;
         transform = _transform;
     }
-
 
     public void Seek(Vector3 location)
     {
@@ -29,10 +26,6 @@ public class SteeringBehaviour
     {
         agent.SetDestination(this.transform.position - (location - this.transform.position));
     }
-
-    // maybe not GetComponent<Drive>()
-    // only the player will have this component
-    // remplace GetComponent<Drive>() by GetComponent<NavMeshAgent>()
 
     public void Pursue()
     {
@@ -49,7 +42,6 @@ public class SteeringBehaviour
 
     public void Evade()
     {
-
         Vector3 targetDir = target.transform.position - this.transform.position;
         float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
