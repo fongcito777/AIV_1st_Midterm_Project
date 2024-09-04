@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PedestrianSteeringBehavior : MonoBehaviour
+public class CopSteeringBehavior : MonoBehaviour
 {
     private SteeringBehaviour steeringBehaviour;
 
@@ -20,12 +20,12 @@ public class PedestrianSteeringBehavior : MonoBehaviour
         return false;
     }
 
-    // They will have “Wander” behavior by default, and when a thief approaches
-    // them, they will switch to “Flee” to try to escape from them.
+    // The cops by default will be in "Wander" prowling the map, and when they
+    // approach a thief, they will switch to "Seek" to catch the thief
     void Update()
     {
         if (is_a_thief_near(10)) {
-            steeringBehaviour.Flee(target.transform.position);
+            steeringBehaviour.Seek(target.transform.position);
         } else {
             steeringBehaviour.Wander();
         }

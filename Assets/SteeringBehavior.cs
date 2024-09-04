@@ -30,13 +30,17 @@ public class SteeringBehaviour
         agent.SetDestination(this.transform.position - (location - this.transform.position));
     }
 
+    // maybe not GetComponent<Drive>()
+    // only the player will have this component
+    // remplace GetComponent<Drive>() by GetComponent<NavMeshAgent>()
+
     public void Pursue()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<Drive>().currentSpeed);
+        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
 
-        if (target.GetComponent<Drive>().currentSpeed <= 0.01f) {
+        if (target.GetComponent<NavMeshAgent>().speed <= 0.01f) {
             Seek(target.transform.position);
         } else {
             Seek(pursueLocation);
@@ -47,7 +51,7 @@ public class SteeringBehaviour
     {
 
         Vector3 targetDir = target.transform.position - this.transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<Drive>().currentSpeed);
+        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
 
         Flee(pursueLocation);
