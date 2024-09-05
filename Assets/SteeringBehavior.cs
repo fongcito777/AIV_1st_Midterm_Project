@@ -9,7 +9,11 @@ public class SteeringBehaviour
     NavMeshAgent agent;
     GameObject target;
     Transform transform;
-    float wanderAngle = 0;
+
+    public float wanderRadius = 10;
+    public float wanderDistance = 10;
+    public float wanderJitter = 10;
+    Vector3 wanderTarget = Vector3.zero;
 
     public void Init(NavMeshAgent _agent, GameObject _target, Transform _transform)
     {
@@ -49,22 +53,43 @@ public class SteeringBehaviour
 
         Flee(pursueLocation);
     }
+
     
-    public void Wander(Vector3 center_circle, float radius)
+    public void Wander()
     {
-        // wander around the center of the circle, at a distance of radius
-        if (Vector3.Distance(this.transform.position, center_circle) > radius + 0.5f) {
-            Seek(center_circle);
-        } else {
-            wanderAngle += 0.0005f; // change this value to the value of the agent's speed, every 0.1s
-            // maybe agent.velocity.magnitude
-            Vector3 target = center_circle + radius * new Vector3(Mathf.Cos(wanderAngle), 0, Mathf.Sin(wanderAngle));
-            Seek(target);
-        }
+        wanderTarget += new Vector3(Random.Range(-1.0f, 1.0f) * wanderJitter,
+                                    0,
+                                    Random.Range(-1.0f, 1.0f) * wanderJitter);
+
+        wanderTarget.Normalize();
+
+        wanderTarget *= wanderRadius;
+        Vector3 targetLocal = wanderTarget + new Vector3(0, 0, wanderDistance);
+        Vector3 targetWorld = agent.transform.InverseTransformVector(targetLocal);
+
+        Seek(targetWorld);
     }
     
+    GameObject[] getHidingPlaces()
+    {
+        return GameObject.FindGameObjectsWithTag("hide");
+    }
+
     public void Hide()
     {
+        float closestDistance = Mathf.Infinity;
+        Vector3 chosenSpot = Vector3.zero;
+        GameObject[] hidingPlaces = getHidingPlaces();
 
+        foreach(GameObject hidingPlace in hidingPlaces) {
+            Vector3 hideDirection = hidingPlace.transform.position - target.transform.position;
+            Vector3 hidePosition = hidingPlace.transform.position + hideDirection.normalized * 3;
+
+            if (closestDistance > Vector3.Distance(this.transform.position, hidePosition)) {
+                closestDistance = Vector3.Distance(this.transform.position, hidePosition);
+                chosenSpot = hidePosition;
+            }
+        }
+        Seek(chosenSpot);
     }
 }

@@ -33,7 +33,7 @@ public class PedestrianSteeringBehavior : MonoBehaviour
         if (is_a_thief_near(10)) {
             steeringBehaviour.Flee(target.transform.position);
         } else {
-            steeringBehaviour.Wander(center_circle, 7);
+            steeringBehaviour.Wander();
         }
     }
 }

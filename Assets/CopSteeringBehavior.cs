@@ -32,7 +32,7 @@ public class CopSteeringBehavior : MonoBehaviour
         if (is_a_thief_near(10)) {
             steeringBehaviour.Seek(target.transform.position);
         } else {
-            steeringBehaviour.Wander(center_circle, 3);
+            steeringBehaviour.Wander();
         }
     }
 }
