@@ -9,6 +9,7 @@ public class SteeringBehaviour
     NavMeshAgent agent;
     GameObject target;
     Transform transform;
+    float wanderAngle = 0;
 
     public void Init(NavMeshAgent _agent, GameObject _target, Transform _transform)
     {
@@ -49,9 +50,17 @@ public class SteeringBehaviour
         Flee(pursueLocation);
     }
     
-    public void Wander()
+    public void Wander(Vector3 center_circle, float radius)
     {
-
+        // wander around the center of the circle, at a distance of radius
+        if (Vector3.Distance(this.transform.position, center_circle) > radius + 0.5f) {
+            Seek(center_circle);
+        } else {
+            wanderAngle += 0.0005f; // change this value to the value of the agent's speed, every 0.1s
+            // maybe agent.velocity.magnitude
+            Vector3 target = center_circle + radius * new Vector3(Mathf.Cos(wanderAngle), 0, Mathf.Sin(wanderAngle));
+            Seek(target);
+        }
     }
     
     public void Hide()
