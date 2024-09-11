@@ -22,6 +22,24 @@ public class SteeringBehaviour
         transform = _transform;
     }
 
+    public void NewTarget(GameObject _target)
+    {
+        target = _target;
+    }
+
+    // Cops have NavMeshAgent, Player have Drive
+    // This function will return the speed of the target, player or cop
+    private float getSpeedTarget()
+    {
+        if (target.GetComponent<NavMeshAgent>()) {
+            return target.GetComponent<NavMeshAgent>().speed;
+        } else if (target.GetComponent<Drive>()) {
+            return target.GetComponent<Drive>().speed;
+        } else {
+            return 0;
+        }
+    }
+
     public void Seek(Vector3 location)
     {
         agent.SetDestination(location);
@@ -35,10 +53,10 @@ public class SteeringBehaviour
     public void Pursue()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
+        float lookAhead = targetDir.magnitude / (agent.speed + getSpeedTarget());
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
 
-        if (target.GetComponent<NavMeshAgent>().speed <= 0.01f) {
+        if (getSpeedTarget() <= 0.01f) {
             Seek(target.transform.position);
         } else {
             Seek(pursueLocation);
@@ -48,13 +66,12 @@ public class SteeringBehaviour
     public void Evade()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<NavMeshAgent>().speed);
+        float lookAhead = targetDir.magnitude / (agent.speed + getSpeedTarget());
         Vector3 pursueLocation = target.transform.position + target.transform.forward * lookAhead * 3;
 
         Flee(pursueLocation);
     }
 
-    
     public void Wander()
     {
         wanderTarget += new Vector3(Random.Range(-1.0f, 1.0f) * wanderJitter,
@@ -70,26 +87,9 @@ public class SteeringBehaviour
         Seek(targetWorld);
     }
     
-    GameObject[] getHidingPlaces()
-    {
-        return GameObject.FindGameObjectsWithTag("hide");
-    }
-
     public void Hide()
     {
-        float closestDistance = Mathf.Infinity;
-        Vector3 chosenSpot = Vector3.zero;
-        GameObject[] hidingPlaces = getHidingPlaces();
-
-        foreach(GameObject hidingPlace in hidingPlaces) {
-            Vector3 hideDirection = hidingPlace.transform.position - target.transform.position;
-            Vector3 hidePosition = hidingPlace.transform.position + hideDirection.normalized * 3;
-
-            if (closestDistance > Vector3.Distance(this.transform.position, hidePosition)) {
-                closestDistance = Vector3.Distance(this.transform.position, hidePosition);
-                chosenSpot = hidePosition;
-            }
-        }
-        Seek(chosenSpot);
+        GameObject closestHidingPlace = Utility.ClosestCharacter("hide", transform);
+        Seek(closestHidingPlace.transform.position);
     }
 }

@@ -14,14 +14,19 @@ public class RobberSteeringBehavior : MonoBehaviour
         steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
+    // Handle all collisions, pedestrians and cops
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Pedestrian") {
             Debug.Log("Pedestrian collide");
             Destroy(collision.gameObject);
-        } else if (collision.gameObject.tag == "Police") { // Cop or Player
-            Debug.Log("Police collide");
+            target = null;
+        } else if (collision.gameObject.tag == "Police") {
+            Debug.Log("Cop collide");
             Destroy(this.gameObject);
+            if (Utility.GetObjectsWithTag("Robber").Length == 1) {
+                Debug.Log("Finish game");
+            }
         }
     }
 
@@ -33,19 +38,15 @@ public class RobberSteeringBehavior : MonoBehaviour
         if ((target = Utility.IsCharacterNear(10, "Pedestrian", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
         } else {
+            target = Utility.ClosestCharacter("Police", transform);
+            steeringBehaviour.NewTarget(target);
             steeringBehaviour.Evade();
         }
     }
 }
 
-// do collision things
-
-
 // Main menu with game instructions and start game
 
 // Counter in HUD with remaining thieves
-
-
-// The game ends when all the thieves have been captured
 
 // The game returns to main menu after game ends
