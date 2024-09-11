@@ -19,14 +19,9 @@ public class PedestrianSteeringBehavior : MonoBehaviour
         Debug.Log("Circle center: " + center_circle);
     }
 
-    GameObject[] getObjectsWithTag(string tag)
-    {
-        return GameObject.FindGameObjectsWithTag(tag);
-    }
-
     bool is_a_thief_near(int distance)
     {
-        foreach (GameObject thief in getObjectsWithTag("Robber")) {
+        foreach (GameObject thief in Utility.GetObjectsWithTag("Robber")) {
             if (Vector3.Distance(thief.transform.position, transform.position) < distance) {
                 target = thief;
                 return true;

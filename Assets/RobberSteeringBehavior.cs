@@ -14,14 +14,9 @@ public class RobberSteeringBehavior : MonoBehaviour
         steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
-    GameObject[] getObjectsWithTag(string tag)
-    {
-        return GameObject.FindGameObjectsWithTag(tag);
-    }
-
     bool is_a_pedestrian_near(int distance)
     {
-        foreach (GameObject pedestrian in getObjectsWithTag("Pedestrian")) {
+        foreach (GameObject pedestrian in Utility.GetObjectsWithTag("Pedestrian")) {
             if (Vector3.Distance(pedestrian.transform.position, transform.position) < distance) {
                 target = pedestrian;
                 return true;
@@ -30,12 +25,14 @@ public class RobberSteeringBehavior : MonoBehaviour
         return false;
     }
 
-    private void OnTriggerEnter (Collider collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "Player") {
+        if (collision.gameObject.tag == "Pedestrian") {
+            Debug.Log("Pedestrian collide");
             Destroy(collision.gameObject);
+        } else if (collision.gameObject.tag == "Police") { // Cop or Player
+            Debug.Log("Police collide");
             Destroy(this.gameObject);
-            Debug.Log("Hit: " + collision.transform.name);
         }
     }
 
@@ -51,3 +48,15 @@ public class RobberSteeringBehavior : MonoBehaviour
         }
     }
 }
+
+// do collision things
+
+
+// Main menu with game instructions and start game
+
+// Counter in HUD with remaining thieves
+
+
+// The game ends when all the thieves have been captured
+
+// The game returns to main menu after game ends
