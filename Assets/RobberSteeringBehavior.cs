@@ -14,10 +14,29 @@ public class RobberSteeringBehavior : MonoBehaviour
         steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
+    GameObject[] getObjectsWithTag(string tag)
+    {
+        return GameObject.FindGameObjectsWithTag(tag);
+    }
+
     bool is_a_pedestrian_near(int distance)
     {
-        // Check if a pedestrian is near
+        foreach (GameObject pedestrian in getObjectsWithTag("Pedestrian")) {
+            if (Vector3.Distance(pedestrian.transform.position, transform.position) < distance) {
+                target = pedestrian;
+                return true;
+            }
+        }
         return false;
+    }
+
+    private void OnTriggerEnter (Collider collision)
+    {
+        if (collision.tag == "Player") {
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+            Debug.Log("Hit: " + collision.transform.name);
+        }
     }
 
     // They will have the default "Evade" behavior towards police officers and the player

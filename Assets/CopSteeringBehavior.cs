@@ -18,10 +18,19 @@ public class CopSteeringBehavior : MonoBehaviour
         Debug.Log("Circle center: " + center_circle);
     }
 
+    GameObject[] getObjectsWithTag(string tag)
+    {
+        return GameObject.FindGameObjectsWithTag(tag);
+    }
+
     bool is_a_thief_near(int distance)
     {
-        // Check if a thief is near
-        // reset center_circle if true
+        foreach (GameObject thief in getObjectsWithTag("Robber")) {
+            if (Vector3.Distance(thief.transform.position, transform.position) < distance) {
+                target = thief;
+                return true;
+            }
+        }
         return false;
     }
 
