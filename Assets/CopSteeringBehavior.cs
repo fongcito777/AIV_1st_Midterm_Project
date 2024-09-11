@@ -18,22 +18,11 @@ public class CopSteeringBehavior : MonoBehaviour
         Debug.Log("Circle center: " + center_circle);
     }
 
-    bool is_a_thief_near(int distance)
-    {
-        foreach (GameObject thief in Utility.GetObjectsWithTag("Robber")) {
-            if (Vector3.Distance(thief.transform.position, transform.position) < distance) {
-                target = thief;
-                return true;
-            }
-        }
-        return false;
-    }
-
     // The cops by default will be in "Wander" prowling the map, and when they
     // approach a thief, they will switch to "Seek" to catch the thief
     void Update()
     {
-        if (is_a_thief_near(10)) {
+        if ((target = Utility.IsCharacterNear(10, "Robber", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
         } else {
             steeringBehaviour.Wander();

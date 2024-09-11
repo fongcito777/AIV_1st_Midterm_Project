@@ -19,22 +19,11 @@ public class PedestrianSteeringBehavior : MonoBehaviour
         Debug.Log("Circle center: " + center_circle);
     }
 
-    bool is_a_thief_near(int distance)
-    {
-        foreach (GameObject thief in Utility.GetObjectsWithTag("Robber")) {
-            if (Vector3.Distance(thief.transform.position, transform.position) < distance) {
-                target = thief;
-                return true;
-            }
-        }
-        return false;
-    }
-
     // They will have “Wander” behavior by default, and when a thief approaches
     // them, they will switch to “Flee” to try to escape from them.
     void Update()
     {
-        if (is_a_thief_near(10)) {
+        if ((target = Utility.IsCharacterNear(10, "Robber", transform)) != null) {
             steeringBehaviour.Flee(target.transform.position);
         } else {
             steeringBehaviour.Wander();

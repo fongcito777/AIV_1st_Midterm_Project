@@ -14,17 +14,6 @@ public class RobberSteeringBehavior : MonoBehaviour
         steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
-    bool is_a_pedestrian_near(int distance)
-    {
-        foreach (GameObject pedestrian in Utility.GetObjectsWithTag("Pedestrian")) {
-            if (Vector3.Distance(pedestrian.transform.position, transform.position) < distance) {
-                target = pedestrian;
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Pedestrian") {
@@ -41,7 +30,7 @@ public class RobberSteeringBehavior : MonoBehaviour
     // the pedestrian
     void Update()
     {
-        if (is_a_pedestrian_near(10)) {
+        if ((target = Utility.IsCharacterNear(10, "Pedestrian", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
         } else {
             steeringBehaviour.Evade();
