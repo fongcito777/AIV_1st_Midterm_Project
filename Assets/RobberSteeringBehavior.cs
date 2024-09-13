@@ -10,8 +10,7 @@ public class RobberSteeringBehavior : MonoBehaviour
 
     void Start()
     {
-        steeringBehaviour = new SteeringBehaviour();
-        steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
+        steeringBehaviour = new SteeringBehaviour(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
     // Handle all collisions, pedestrians and cops

@@ -12,8 +12,7 @@ public class PedestrianSteeringBehavior : MonoBehaviour
 
     void Start()
     {
-        steeringBehaviour = new SteeringBehaviour();
-        steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
+        steeringBehaviour = new SteeringBehaviour(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
     // They will have “Wander” behavior by default, and when a thief approaches

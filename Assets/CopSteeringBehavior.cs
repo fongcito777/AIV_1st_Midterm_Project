@@ -10,8 +10,7 @@ public class CopSteeringBehavior : MonoBehaviour
 
     void Start()
     {
-        steeringBehaviour = new SteeringBehaviour();
-        steeringBehaviour.Init(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
+        steeringBehaviour = new SteeringBehaviour(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
 
     // The cops by default will be in "Wander" prowling the map, and when they

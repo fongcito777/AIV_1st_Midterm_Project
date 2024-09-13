@@ -15,7 +15,7 @@ public class SteeringBehaviour
     public float wanderJitter = 10;
     Vector3 wanderTarget = Vector3.zero;
 
-    public void Init(NavMeshAgent _agent, GameObject _target, Transform _transform)
+    public SteeringBehaviour(NavMeshAgent _agent, GameObject _target, Transform _transform)
     {
         agent = _agent;
         target = _target;
