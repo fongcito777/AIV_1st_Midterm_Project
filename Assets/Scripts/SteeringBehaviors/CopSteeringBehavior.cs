@@ -17,7 +17,7 @@ public class CopSteeringBehavior : MonoBehaviour
     // approach a thief, they will switch to "Seek" to catch the thief
     void Update()
     {
-        if ((target = Utility.IsCharacterNear(10, "Robber", transform)) != null) {
+        if ((target = Utility.IsCharacterNear(20, "Robber", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
         } else {
             steeringBehaviour.Wander();
