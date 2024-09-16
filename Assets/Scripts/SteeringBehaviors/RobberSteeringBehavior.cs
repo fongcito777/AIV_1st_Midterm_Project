@@ -6,7 +6,7 @@ public class RobberSteeringBehavior : MonoBehaviour
 
     public GameObject target; // target could change according to the closest cop
 
-    void Start()
+    private void Start()
     {
         steeringBehaviour = new SteeringBehaviour(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
@@ -27,7 +27,7 @@ public class RobberSteeringBehavior : MonoBehaviour
     // They will have the default "Evade" behavior towards police officers and the player
     // until a pedestrian enters their range, when that happens they will switch to "Seek" to catch
     // the pedestrian
-    void Update()
+    private void Update()
     {
         if ((target = Utility.IsCharacterNear(10, "Pedestrian", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
