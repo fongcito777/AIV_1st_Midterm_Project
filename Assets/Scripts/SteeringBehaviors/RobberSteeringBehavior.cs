@@ -31,6 +31,10 @@ public class RobberSteeringBehavior : MonoBehaviour
     {
         if ((target = Utility.IsCharacterNear(10, "Pedestrian", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
+        } else if ((target = Utility.IsCharacterNear(8, "Police", transform)) != null) {
+            target = Utility.ClosestCharacter("Police", transform);
+            steeringBehaviour.NewTarget(target);
+            steeringBehaviour.Flee(target.transform.position);
         } else {
             target = Utility.ClosestCharacter("Police", transform);
             steeringBehaviour.NewTarget(target);
