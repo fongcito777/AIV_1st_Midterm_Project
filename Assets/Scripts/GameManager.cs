@@ -1,14 +1,15 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class Counter : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private TextMeshProUGUI _counter;
     private int _robberCount;
 
     private void Start()
     {
-        _counter = GameObject.FindGameObjectsWithTag("Counter")[0].GetComponent<TextMeshProUGUI>();
+        _counter = GameObject.FindGameObjectWithTag("Counter").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame

@@ -9,6 +9,7 @@ TagManager:
   - Police
   - Robber
   - Counter
+  - MinimapRender
   layers:
   - Default
   - TransparentFX

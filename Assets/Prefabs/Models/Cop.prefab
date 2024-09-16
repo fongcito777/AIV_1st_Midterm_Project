@@ -2860,8 +2860,24 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3139dd51b6cf5d84e812a008ecc01de3, type: 2}
+    - target: {fileID: 2891388329466514351, guid: 793c300aba985234ca979da296b6f99b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891388329466514351, guid: 793c300aba985234ca979da296b6f99b, type: 3}
+      propertyPath: m_TagString
+      value: MinimapRender
+      objectReference: {fileID: 0}
     - target: {fileID: 4979512911398134324, guid: 793c300aba985234ca979da296b6f99b, type: 3}
       propertyPath: m_Name
+      value: MinimapRender
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979512911398134324, guid: 793c300aba985234ca979da296b6f99b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979512911398134324, guid: 793c300aba985234ca979da296b6f99b, type: 3}
+      propertyPath: m_TagString
       value: MinimapRender
       objectReference: {fileID: 0}
     - target: {fileID: 7201889321428531076, guid: 793c300aba985234ca979da296b6f99b, type: 3}
