@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RobberSteeringBehavior : MonoBehaviour
 {
@@ -16,16 +15,13 @@ public class RobberSteeringBehavior : MonoBehaviour
     // Handle all collisions, pedestrians and cops
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Pedestrian") {
+        if (collision.CompareTag("Pedestrian")) {
             Debug.Log("Pedestrian collide");
             Destroy(collision.gameObject);
             target = null;
-        } else if (collision.gameObject.tag == "Police") {
+        } else if (collision.CompareTag("Police")|| collision.CompareTag("Player")) {
             Debug.Log("Cop collide");
             Destroy(this.gameObject);
-            if (Utility.GetObjectsWithTag("Robber").Length == 1) {
-                Debug.Log("Finish game");
-            }
         }
     }
 

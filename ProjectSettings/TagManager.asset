@@ -8,14 +8,15 @@ TagManager:
   - Pedestrian
   - Police
   - Robber
+  - Counter
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Scenery
   - Water
   - UI
-  - 
+  - UI+
   - 
   - 
   - 
