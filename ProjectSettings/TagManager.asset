@@ -8,14 +8,18 @@ TagManager:
   - Pedestrian
   - Police
   - Robber
+  - Counter
+  - MinimapRender
+  - Minimap
+  - EndMenu
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Scenery
   - Water
   - UI
-  - 
+  - UI+
   - 
   - 
   - 

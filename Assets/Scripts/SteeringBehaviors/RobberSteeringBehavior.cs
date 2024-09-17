@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RobberSteeringBehavior : MonoBehaviour
@@ -8,7 +6,7 @@ public class RobberSteeringBehavior : MonoBehaviour
 
     public GameObject target; // target could change according to the closest cop
 
-    void Start()
+    private void Start()
     {
         steeringBehaviour = new SteeringBehaviour(this.GetComponent<UnityEngine.AI.NavMeshAgent>(), target, transform);
     }
@@ -16,26 +14,27 @@ public class RobberSteeringBehavior : MonoBehaviour
     // Handle all collisions, pedestrians and cops
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Pedestrian") {
+        if (collision.CompareTag("Pedestrian")) {
             Debug.Log("Pedestrian collide");
             Destroy(collision.gameObject);
             target = null;
-        } else if (collision.gameObject.tag == "Police") {
+        } else if (collision.CompareTag("Police")|| collision.CompareTag("Player")) {
             Debug.Log("Cop collide");
             Destroy(this.gameObject);
-            if (Utility.GetObjectsWithTag("Robber").Length == 1) {
-                Debug.Log("Finish game");
-            }
         }
     }
 
     // They will have the default "Evade" behavior towards police officers and the player
     // until a pedestrian enters their range, when that happens they will switch to "Seek" to catch
     // the pedestrian
-    void Update()
+    private void Update()
     {
         if ((target = Utility.IsCharacterNear(10, "Pedestrian", transform)) != null) {
             steeringBehaviour.Seek(target.transform.position);
+        } else if ((target = Utility.IsCharacterNear(8, "Police", transform)) != null) {
+            target = Utility.ClosestCharacter("Police", transform);
+            steeringBehaviour.NewTarget(target);
+            steeringBehaviour.Flee(target.transform.position);
         } else {
             target = Utility.ClosestCharacter("Police", transform);
             steeringBehaviour.NewTarget(target);
